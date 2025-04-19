@@ -69,3 +69,131 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //`--------------------------'  `--------------------------'
         )
 };
+
+
+enum combos {
+    MAC_SLASH,
+    MAC_BACKSLASH,
+    MAC_LEFT_TRIAG,
+    MAC_RIGHT_TRIAG,
+    MAC_LEFT_BRACKET,
+    MAC_RIGHT_BRACKET,
+    MAC_LEFT_PARENT,
+    MAC_RIGHT_PARENT,
+    MAC_LEFT_BRACE,
+    MAC_RIGHT_BRACE,
+};
+
+const uint16_t PROGMEM mac_slash[] = {KC_COMM, KC_DOT, COMBO_END};
+const uint16_t PROGMEM mac_backslash[] = {KC_X, KC_C, COMBO_END};
+const uint16_t PROGMEM mac_left_triag[] = {MT(MOD_LALT, KC_S), MT(MOD_LCTL, KC_D), COMBO_END};
+const uint16_t PROGMEM mac_right_triag[] = {MT(MOD_LCTL, KC_K), MT(MOD_LALT, KC_L), COMBO_END};
+const uint16_t PROGMEM mac_left_bracket[] = {KC_C, KC_V, COMBO_END};
+const uint16_t PROGMEM mac_right_bracket[] = {KC_M, KC_COMM, COMBO_END};
+const uint16_t PROGMEM mac_left_parent[] = {MT(MOD_LCTL, KC_D), MT(MOD_LSFT, KC_F), COMBO_END};
+const uint16_t PROGMEM mac_right_parent[] = {MT(MOD_LSFT, KC_J), MT(MOD_LCTL, KC_K), COMBO_END};
+const uint16_t PROGMEM mac_left_brace[] = {KC_E, KC_R, COMBO_END};
+const uint16_t PROGMEM mac_right_brace[] = {KC_U, KC_I, COMBO_END};
+
+combo_t key_combos[] = {
+    [MAC_SLASH] = COMBO(mac_slash, KC_NO),
+    [MAC_BACKSLASH] = COMBO(mac_backslash, KC_NO),
+    [MAC_LEFT_TRIAG] = COMBO(mac_left_triag, KC_NO),
+    [MAC_RIGHT_TRIAG] = COMBO(mac_right_triag, KC_NO),
+    [MAC_LEFT_BRACKET] = COMBO(mac_left_bracket, KC_NO),
+    [MAC_RIGHT_BRACKET] = COMBO(mac_right_bracket, KC_NO),
+    [MAC_LEFT_PARENT] = COMBO(mac_left_parent, KC_NO),
+    [MAC_RIGHT_PARENT] = COMBO(mac_right_parent, KC_NO),
+    [MAC_LEFT_BRACE] = COMBO(mac_left_brace, KC_NO),
+    [MAC_RIGHT_BRACE] = COMBO(mac_right_brace, KC_NO),
+};
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+    if (pressed) {
+        switch(combo_index) {
+            case MAC_SLASH:
+                if (layer_state_is(0)) {
+                    tap_code16(KC_KP_8);
+                } else if (layer_state_is(4)) {
+                    tap_code16(KC_NO);
+                }
+                break;
+            case MAC_BACKSLASH:
+                if (layer_state_is(0)) {
+                    tap_code16(LSFT(KC_KP_8));
+                } else if (layer_state_is(4)) {
+                    tap_code16(KC_NO);
+                }
+                break;
+            case MAC_LEFT_TRIAG:
+                if (layer_state_is(0)) {
+                    tap_code16(KC_KP_7);
+                } else if (layer_state_is(4)) {
+                    tap_code16(KC_NO);
+                }
+                break;
+            case MAC_RIGHT_TRIAG:
+                if (layer_state_is(0)) {
+                    tap_code16(LSFT(KC_KP_7));
+                } else if (layer_state_is(4)) {
+                    tap_code16(KC_NO);
+                }
+                break;
+            case MAC_LEFT_BRACKET:
+                if (layer_state_is(0)) {
+                    tap_code16(KC_KP_5);
+                } else if (layer_state_is(4)) {
+                    tap_code16(KC_NO);
+                }
+                break;
+            case MAC_RIGHT_BRACKET:
+                if (layer_state_is(0)) {
+                    tap_code16(LSFT(KC_KP_5));
+                } else if (layer_state_is(4)) {
+                    tap_code16(KC_NO);
+                }
+                break;
+            case MAC_LEFT_PARENT:
+                if (layer_state_is(0)) {
+                    tap_code16(KC_LEFT_PAREN);
+                } else if (layer_state_is(4)) {
+                    tap_code16(KC_NO);
+                }
+                break;
+            case MAC_RIGHT_PARENT:
+                if (layer_state_is(0)) {
+                    tap_code16(KC_RIGHT_PAREN);
+                } else if (layer_state_is(4)) {
+                    tap_code16(KC_NO);
+                }
+                break;
+            case MAC_LEFT_BRACE:
+                if (layer_state_is(0)) {
+                    tap_code16(KC_KP_6);
+                } else if (layer_state_is(4)) {
+                    tap_code16(KC_NO);
+                }
+                break;
+            case MAC_RIGHT_BRACE:
+                if (layer_state_is(0)) {
+                    tap_code16(LSFT(KC_KP_6));
+                } else if (layer_state_is(4)) {
+                    tap_code16(KC_NO);
+                }
+                break;
+        }
+    }
+}
+
+
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case MT(MOD_RGUI, KC_TAB):
+        case MT(MOD_LALT, KC_DEL):
+        case LT(1, KC_ESC):
+        case LT(2, KC_SPC):
+            return true;
+        default:
+            return false;
+    }
+}
